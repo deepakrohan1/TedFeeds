@@ -7,7 +7,15 @@ public class PodCasts {
     //Title, Description, Publication date, Image URL, Duration, and
 //    MP3 file URL
 
-    private String description, publishDate, imageURL, duration, url;
+    private String description, publishDate, imageURL, duration, url, title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getDescription() {
         return description;
@@ -57,6 +65,7 @@ public class PodCasts {
                 ", imageURL='" + imageURL + '\'' +
                 ", duration='" + duration + '\'' +
                 ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
                 '}';
     }
 }
