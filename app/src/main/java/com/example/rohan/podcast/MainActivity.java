@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new GetFeedsAsync().execute("http://www.npr.org/rss/podcast.php?id=510298");
     }
 
     @Override

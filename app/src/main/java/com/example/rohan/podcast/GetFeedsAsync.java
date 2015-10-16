@@ -3,6 +3,8 @@ package com.example.rohan.podcast;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -31,16 +33,19 @@ public class GetFeedsAsync extends AsyncTask<String, Void, ArrayList<PodCasts>> 
         try {
             Log.d("Demo", "Inside the Async");
             URL url = new URL(params[0]);
+            Log.d("demo",params[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             if(con.getResponseCode() == HttpURLConnection.HTTP_OK){
                 Log.d("Demo", "Response code OK");
                 InputStream in = con.getInputStream();
-//                return XmlParser.XmlParserPodcasts.getList(in);
+                return XmlParser.XmlParserPodcasts.getList(in);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
             e.printStackTrace();
         }
 
