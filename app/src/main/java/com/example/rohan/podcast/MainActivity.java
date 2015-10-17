@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
             Log.d("demo","Check"+p.toString());
         }
 
-        mAdapter = new RecyclerViewAdaPod(podCastsArrayList);
+        mAdapter = new RecyclerViewAdaPod(podCastsArrayList,this);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

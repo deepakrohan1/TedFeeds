@@ -1,11 +1,15 @@
 package com.example.rohan.podcast;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -16,6 +20,7 @@ public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.
 
 
     private ArrayList<PodCasts> mDataSet;
+    private Context mContext;
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public View mView;
 
@@ -25,8 +30,9 @@ public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.
         }
     }
 
-    public RecyclerViewAdaPod(ArrayList<PodCasts> mDataSet){
+    public RecyclerViewAdaPod(ArrayList<PodCasts> mDataSet, Context mContext){
         this.mDataSet = mDataSet;
+        this.mContext = mContext;
 
     }
 
@@ -44,9 +50,11 @@ public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.
 
         TextView title = (TextView) viewHolder.mView.findViewById(R.id.textViewTitle);
         TextView pubDate = (TextView) viewHolder.mView.findViewById(R.id.textViewDate);
+        ImageView imagelogo = (ImageView)viewHolder.mView.findViewById(R.id.imageViewLogo);
 
         title.setText(mDataSet.get(i).getTitle());
         pubDate.setText(mDataSet.get(i).getPublishDate());
+        Picasso.with(mContext).load(mDataSet.get(i).getImageURL()).resize(30,30).into(imagelogo);
 
     }
 
