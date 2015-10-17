@@ -2,13 +2,13 @@ package com.example.rohan.podcast;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.app.ActionBar;
 
 import java.util.ArrayList;
 
@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
 
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new GridLayoutManager(this,2);
+//        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
 
         //Setting Up the Adapter
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
         switch (id){
             case R.id.action_search:
                 Log.d("demo", "search clicked");
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
             Log.d("demo","Check"+p.toString());
         }
 
-        mAdapter = new RecyclerViewAdaPod(podCastsArrayList,this);
+//        mAdapter = new RecycListViewAdaPod(podCastsArrayList,this);
+        mAdapter = new RecyclerGridViewAdaPod(podCastsArrayList,this);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

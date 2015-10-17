@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by rohan on 10/17/15.
  */
-public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.ViewHolder> {
+public class RecyclerGridViewAdaPod extends RecyclerView.Adapter<RecyclerGridViewAdaPod.ViewHolder> {
 
 
     private ArrayList<PodCasts> mDataSet;
@@ -30,17 +30,17 @@ public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.
         }
     }
 
-    public RecyclerViewAdaPod(ArrayList<PodCasts> mDataSet, Context mContext){
+    public RecyclerGridViewAdaPod(ArrayList<PodCasts> mDataSet, Context mContext){
         this.mDataSet = mDataSet;
         this.mContext = mContext;
 
     }
 
     @Override
-    public RecyclerViewAdaPod.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerGridViewAdaPod.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         Log.d("demo","ctrl adapter");
 
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.relative_list,viewGroup,false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.relative_grid,viewGroup,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -49,12 +49,10 @@ public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         TextView title = (TextView) viewHolder.mView.findViewById(R.id.textViewTitle);
-        TextView pubDate = (TextView) viewHolder.mView.findViewById(R.id.textViewDate);
         ImageView imagelogo = (ImageView)viewHolder.mView.findViewById(R.id.imageViewLogo);
 
         title.setText(mDataSet.get(i).getTitle());
-        pubDate.setText(mDataSet.get(i).getPublishDate());
-        Picasso.with(mContext).load(mDataSet.get(i).getImageURL()).resize(30,30).into(imagelogo);
+        Picasso.with(mContext).load(mDataSet.get(i).getImageURL()).resize(150, 150).into(imagelogo);
 
     }
 
