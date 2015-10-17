@@ -30,9 +30,9 @@ public class XmlParser {
             Log.d("DEmo", "Inside SAX");
             XmlParserPodcasts xmlParserPodcasts = new XmlParserPodcasts();
             Xml.parse(in, Xml.Encoding.UTF_8, xmlParserPodcasts);
-            for (PodCasts p : xmlParserPodcasts.getPodCastsList()) {
-                Log.d("Demo", p.toString());
-            }
+//            for (PodCasts p : xmlParserPodcasts.getPodCastsList()) {
+//                Log.d("Demo", p.toString());
+//            }
             return podCastsList;
         }
 

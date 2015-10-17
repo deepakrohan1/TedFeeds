@@ -1,5 +1,7 @@
 package com.example.rohan.podcast;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -17,14 +19,28 @@ import java.util.ArrayList;
  */
 public class GetFeedsAsync extends AsyncTask<String, Void, ArrayList<PodCasts>> {
 
+    IGetPodCasts mactivity;
+    ProgressDialog progressDialog;
+
+    public GetFeedsAsync(IGetPodCasts activity) {
+        this.mactivity = activity;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog = new ProgressDialog((Context)mactivity);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setTitle("Ted Feeds");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
     protected void onPostExecute(ArrayList<PodCasts> podCastses) {
         super.onPostExecute(podCastses);
+        mactivity.getListofPodCasts(podCastses);
+        progressDialog.dismiss();
     }
 
     @Override
@@ -50,5 +66,10 @@ public class GetFeedsAsync extends AsyncTask<String, Void, ArrayList<PodCasts>> 
         }
 
         return null;
+    }
+
+
+    public static interface IGetPodCasts{
+        public void getListofPodCasts(ArrayList<PodCasts> podCastsArrayList);
     }
 }
