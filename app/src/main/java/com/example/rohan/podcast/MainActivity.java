@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         //Setting Up the Adapter
-//        mAdapter = new MyAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
+
+
 
         new GetFeedsAsync(this).execute("http://www.npr.org/rss/podcast.php?id=510298");
 //        getListofPodCasts();
@@ -76,7 +76,10 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
     @Override
     public void getListofPodCasts(ArrayList<PodCasts> podCastsArrayList) {
         for(PodCasts p : podCastsArrayList){
-            Log.d("demo",p.toString());
+            Log.d("demo","Check"+p.toString());
         }
+
+        mAdapter = new RecyclerViewAdaPod(podCastsArrayList);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

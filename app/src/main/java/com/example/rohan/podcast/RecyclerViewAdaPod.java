@@ -1,6 +1,8 @@
 package com.example.rohan.podcast;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,34 +14,45 @@ import java.util.ArrayList;
  */
 public class RecyclerViewAdaPod extends RecyclerView.Adapter<RecyclerViewAdaPod.ViewHolder> {
 
-    private String[] mDataSet;
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView mTextView;
 
-        public ViewHolder(TextView v) {
+    private ArrayList<PodCasts> mDataSet;
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        public View mView;
+
+        public ViewHolder(View v) {
             super(v);
-            mTextView = v;
+            mView = v;
         }
     }
 
-    public RecyclerViewAdaPod(String[] mDataSet){
+    public RecyclerViewAdaPod(ArrayList<PodCasts> mDataSet){
         this.mDataSet = mDataSet;
 
     }
 
     @Override
     public RecyclerViewAdaPod.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return null;
+        Log.d("demo","ctrl adapter");
+
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.relative_list,viewGroup,false);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
+        TextView title = (TextView) viewHolder.mView.findViewById(R.id.textViewTitle);
+        TextView pubDate = (TextView) viewHolder.mView.findViewById(R.id.textViewDate);
+
+        title.setText(mDataSet.get(i).getTitle());
+        pubDate.setText(mDataSet.get(i).getPublishDate());
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDataSet.size();
     }
 
 }
