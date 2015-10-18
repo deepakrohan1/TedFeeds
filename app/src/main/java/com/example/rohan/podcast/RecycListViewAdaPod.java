@@ -1,6 +1,7 @@
 package com.example.rohan.podcast;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,7 +56,24 @@ public class RecycListViewAdaPod extends RecyclerView.Adapter<RecycListViewAdaPo
         title.setText(mDataSet.get(i).getTitle());
         pubDate.setText(mDataSet.get(i).getPublishDate());
         Picasso.with(mContext).load(mDataSet.get(i).getImageURL()).resize(30, 30).into(imagelogo);
+        final PodCasts podCast = mDataSet.get(i);
 
+        imagelogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext,PlayActivity.class);
+                i.putExtra(RecyclerGridViewAdaPod.PODCAST_INFO,podCast);
+                mContext.startActivity(i);
+            }
+        });
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext,PlayActivity.class);
+                i.putExtra(RecyclerGridViewAdaPod.PODCAST_INFO,podCast);
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @Override
