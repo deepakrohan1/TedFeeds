@@ -30,7 +30,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:id="@+id/imageViewPlay"
+        android:id="@+id/imageViewPlayButton"
         android:src="@drawable/play"
         android:layout_alignBottom="@+id/imageViewLogo"
         android:layout_toEndOf="@+id/imageViewLogo" />
@@ -41,7 +41,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/play_now"
         android:id="@+id/textViewPlay"
-        android:layout_alignTop="@+id/imageViewPlay"
+        android:layout_alignTop="@+id/imageViewPlayButton"
         android:layout_alignEnd="@+id/textViewTitle" />
 
 </RelativeLayout>

@@ -52,7 +52,7 @@ public class RecyclerGridViewAdaPod extends RecyclerView.Adapter<RecyclerGridVie
 
         TextView title = (TextView) viewHolder.mView.findViewById(R.id.textViewTitle);
         ImageView imagelogo = (ImageView)viewHolder.mView.findViewById(R.id.imageViewLogo);
-        ImageView imagePlay = (ImageView)viewHolder.mView.findViewById(R.id.imageViewPlay);
+        ImageView imagePlay = (ImageView)viewHolder.mView.findViewById(R.id.imageViewPlayButton);
         final PodCasts podCast = mDataSet.get(i);
 
         title.setOnClickListener(new View.OnClickListener() {

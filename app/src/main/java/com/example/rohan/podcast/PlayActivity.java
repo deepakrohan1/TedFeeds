@@ -1,15 +1,21 @@
 package com.example.rohan.podcast;
 
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class PlayActivity extends AppCompatActivity {
+import java.io.IOException;
+
+public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
 
     TextView textViewTitle;
     TextView textViewDescription;
@@ -17,6 +23,14 @@ public class PlayActivity extends AppCompatActivity {
     TextView textViewDuration;
     ImageView imageViewPodcast;
     PodCasts podCast;
+    String audioFileLink;
+    MediaPlayer mediaP;
+    ImageView playButton, pauseButton;
+    Boolean fIsPlayed;
+    ProgressBar episodeProgress;
+    int episodeDuration;
+    static Handler handlerI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +41,68 @@ public class PlayActivity extends AppCompatActivity {
         textViewPubDate = (TextView)findViewById(R.id.textViewPubDate);
         textViewDuration = (TextView)findViewById(R.id.textViewDuration);
         imageViewPodcast = (ImageView)findViewById(R.id.imageViewPodcast);
+        playButton = (ImageView) findViewById(R.id.imageViewPlayButton);
+        pauseButton = (ImageView) findViewById(R.id.imageViewPauseButton);
+        episodeProgress = (ProgressBar) findViewById(R.id.progressBarEpisodeLength);
 
         if(getIntent().getExtras() != null){
             podCast = (PodCasts) getIntent().getExtras().getSerializable(RecyclerGridViewAdaPod.PODCAST_INFO);
         }
-
+        audioFileLink = podCast.getUrl();
+        episodeDuration = Integer.parseInt(podCast.getDuration()) * 1000;
+        episodeProgress.setMax(100);
         textViewTitle.setText(podCast.getTitle());
         textViewDescription.setText("Description: "+podCast.getDescription());
-        textViewDuration.setText("Duration: "+podCast.getDuration());
+        textViewDuration.setText("Duration: " + podCast.getDuration());
         textViewPubDate.setText("Published Date: "+podCast.getPublishDate());
 
         Picasso.with(this).load(podCast.getImageURL()).resize(250,200).into(imageViewPodcast);
+
+        mediaP = new MediaPlayer();
+        pauseButton.setVisibility(View.INVISIBLE);
+        fIsPlayed = false;
+
+
+
+    }
+
+    public void playOnClick(View aView){
+        if(!fIsPlayed){
+            mediaP.setOnPreparedListener(PlayActivity.this);
+            try {
+                mediaP.setDataSource(audioFileLink);
+                mediaP.prepare();
+                mediaP.start();
+                fIsPlayed = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            mediaP.start();
+        }
+
+        handlerI = new Handler();
+        PlayActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mediaP !=null){
+                    int lCurrentPosition = ((mediaP.getCurrentPosition())*100)/ episodeDuration;
+                    episodeProgress.setProgress(lCurrentPosition);
+                }
+
+                handlerI.postDelayed(this, 1000);
+            }
+        });
+
+        playButton.setVisibility(View.INVISIBLE);
+        pauseButton.setVisibility(View.VISIBLE);
+    }
+
+    public void pauseOnClick(View aView){
+        mediaP.pause();
+
+        pauseButton.setVisibility(View.INVISIBLE);
+        playButton.setVisibility(View.VISIBLE);
 
     }
 
@@ -61,5 +126,10 @@ public class PlayActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+
     }
 }
