@@ -2,6 +2,7 @@ package com.example.rohan.podcast;
 
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,7 +27,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     String audioFileLink;
     MediaPlayer mediaP;
     ImageView playButton, pauseButton;
-    Boolean fIsPlayed;
+    Boolean isPlayed;
     ProgressBar episodeProgress;
     int episodeDuration;
     static Handler handlerI;
@@ -35,6 +36,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_activity);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ted_icon);
+        actionBar.setTitle("Play!");
 
         textViewTitle = (TextView)findViewById(R.id.textViewTitle);
         textViewDescription = (TextView)findViewById(R.id.textViewDescription);
@@ -60,20 +66,20 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         mediaP = new MediaPlayer();
         pauseButton.setVisibility(View.INVISIBLE);
-        fIsPlayed = false;
+        isPlayed = false;
 
 
 
     }
 
     public void playOnClick(View aView){
-        if(!fIsPlayed){
+        if(!isPlayed){
             mediaP.setOnPreparedListener(PlayActivity.this);
             try {
                 mediaP.setDataSource(audioFileLink);
                 mediaP.prepare();
                 mediaP.start();
-                fIsPlayed = true;
+                isPlayed = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }

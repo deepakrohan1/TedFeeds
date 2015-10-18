@@ -1,5 +1,7 @@
 package com.example.rohan.podcast;
 
+import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -19,19 +24,32 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<PodCasts> podcastL = new ArrayList<>();
+    public static ImageView playButton, pauseButton;
+    public static ProgressBar episodeProgress;
+    static Boolean isPlaying = false;
+    static Handler handlerI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.ted_icon);
+        actionBar.setTitle("TED Radio Hour Podcast");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
         mRecyclerView.setHasFixedSize(true);
 
+        playButton = (ImageView) findViewById(R.id.imageViewPlayButton);
+        pauseButton = (ImageView) findViewById(R.id.imageViewPauseButton);
+        episodeProgress = (ProgressBar) findViewById(R.id.progressBarEpisodeLength);
+
+        playButton.setVisibility(View.INVISIBLE);
+        pauseButton.setVisibility(View.INVISIBLE);
+        episodeProgress.setVisibility(View.INVISIBLE);
 
 //
 //        mRecyclerView.setLayoutManager(mLayoutManager);
@@ -109,5 +127,54 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
             mAdapter = new RecycListViewAdaPod(podcastL,this);
         }
         mRecyclerView.setAdapter(mAdapter);
+
+    }
+    public void playing(){
+        pauseButton.setVisibility(View.VISIBLE);
+        playButton.setVisibility(View.INVISIBLE);
+        episodeProgress.setVisibility(View.VISIBLE);
+        isPlaying = true;
+
+        handlerI = new Handler();
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int lCurrentPosition = 0;
+                if(type == "G"){
+                    if (RecyclerGridViewAdaPod.getMediaPlayer() != null){
+                        lCurrentPosition = ((RecyclerGridViewAdaPod.getMediaPlayer().getCurrentPosition()) * 100) / RecyclerGridViewAdaPod.getMediaPlayer().getDuration();
+                    }
+                }else{
+                    if (RecycListViewAdaPod.getMediaPlayer() != null){
+                        lCurrentPosition = ((RecycListViewAdaPod.getMediaPlayer().getCurrentPosition()) * 100) / RecycListViewAdaPod.getMediaPlayer().getDuration();
+                    }
+                }
+
+                episodeProgress.setProgress(lCurrentPosition);
+                handlerI.postDelayed(this, 1000);
+            }
+        });
+
+
+
+    }
+    public void playOnClick(View aView){
+        if(type == "G")
+            RecyclerGridViewAdaPod.getMediaPlayer().start();
+        else
+            RecycListViewAdaPod.getMediaPlayer().start();
+
+        pauseButton.setVisibility(View.VISIBLE);
+        playButton.setVisibility(View.INVISIBLE);
+    }
+
+    public void pauseOnClick(View aView){
+        if(type == "G")
+            RecyclerGridViewAdaPod.getMediaPlayer().pause();
+        else
+            RecycListViewAdaPod.getMediaPlayer().pause();
+
+        pauseButton.setVisibility(View.INVISIBLE);
+        playButton.setVisibility(View.VISIBLE);
     }
 }
