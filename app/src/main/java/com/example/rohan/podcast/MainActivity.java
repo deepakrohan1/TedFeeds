@@ -13,10 +13,12 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGetPodCasts {
-
+    private int i = 0;
+    private String type = "L";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<PodCasts> podcastL = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,12 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
 
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new GridLayoutManager(this,2);
-//        mLayoutManager = new LinearLayoutManager(this);
+
+//
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-
         //Setting Up the Adapter
 
 
@@ -61,19 +64,29 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
         int id = item.getItemId();
         switch (id){
             case R.id.action_search:
+                i++;
+                if(i%2 != 0){
+
+                    mLayoutManager = new GridLayoutManager(this,2);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    type = "G";
+                    switchViews();
+
+
+                }else {
+
+                    mLayoutManager = new LinearLayoutManager(this);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    type = "L";
+                    switchViews();
+
+                }
                 Log.d("demo", "search clicked");
 
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
-
     }
 
     @Override
@@ -81,9 +94,20 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
         for(PodCasts p : podCastsArrayList){
             Log.d("demo","Check"+p.toString());
         }
+        podcastL = (ArrayList<PodCasts>) podCastsArrayList.clone();
+        mAdapter = new RecycListViewAdaPod(podcastL,this);
+        mRecyclerView.setAdapter(mAdapter);
 
-//        mAdapter = new RecycListViewAdaPod(podCastsArrayList,this);
-        mAdapter = new RecyclerGridViewAdaPod(podCastsArrayList,this);
+    }
+
+    private void switchViews(){
+        if(type == "G") {
+            Log.d("demo", "inside grid");
+            mAdapter = new RecyclerGridViewAdaPod(podcastL, this);
+        }else if(type == "L"){
+            Log.d("demo", "inside list");
+            mAdapter = new RecycListViewAdaPod(podcastL,this);
+        }
         mRecyclerView.setAdapter(mAdapter);
     }
 }
