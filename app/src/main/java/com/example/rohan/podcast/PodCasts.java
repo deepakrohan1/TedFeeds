@@ -1,9 +1,11 @@
 package com.example.rohan.podcast;
 
+import java.io.Serializable;
+
 /**
  * Created by rohan on 10/16/15.
  */
-public class PodCasts {
+public class PodCasts implements Serializable {
     //Title, Description, Publication date, Image URL, Duration, and
 //    MP3 file URL
 

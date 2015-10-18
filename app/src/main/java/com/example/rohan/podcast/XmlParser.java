@@ -66,10 +66,9 @@ public class XmlParser {
                 podCast.setDescription(sb.toString().trim());
             } else if (localName.equals("pubDate")) {
                 podCast.setPublishDate(sb.toString().trim());
-            } else if (localName.equals("duration")) {
+            }else if (qName.equals("itunes:duration")){
                 podCast.setDuration(sb.toString().trim());
             }
-
             sb.setLength(0);
         }
 

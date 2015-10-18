@@ -1,6 +1,7 @@
 package com.example.rohan.podcast;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class RecyclerGridViewAdaPod extends RecyclerView.Adapter<RecyclerGridVie
 
 
     private ArrayList<PodCasts> mDataSet;
+    public static  final String PODCAST_INFO="podcast";
     private Context mContext;
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public View mView;
@@ -50,9 +52,23 @@ public class RecyclerGridViewAdaPod extends RecyclerView.Adapter<RecyclerGridVie
 
         TextView title = (TextView) viewHolder.mView.findViewById(R.id.textViewTitle);
         ImageView imagelogo = (ImageView)viewHolder.mView.findViewById(R.id.imageViewLogo);
+        ImageView imagePlay = (ImageView)viewHolder.mView.findViewById(R.id.imageViewPlay);
+        final PodCasts podCast = mDataSet.get(i);
+
+        title.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext,PlayActivity.class);
+                i.putExtra(PODCAST_INFO,podCast);
+                mContext.startActivity(i);
+            }
+        });
 
         title.setText(mDataSet.get(i).getTitle());
         Picasso.with(mContext).load(mDataSet.get(i).getImageURL()).resize(150, 150).into(imagelogo);
+
+
 
     }
 
