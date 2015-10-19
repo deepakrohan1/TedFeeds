@@ -61,13 +61,14 @@ public class XmlParser {
             if (localName.equals("item")) {
                 podCastsList.add(podCast);
             } else if (localName.equals("title")) {
+                Log.d("demo",sb.toString());
                 podCast.setTitle(sb.toString().trim());
             } else if (localName.equals("description")) {
                 podCast.setDescription(sb.toString().trim());
             } else if (localName.equals("pubDate")) {
                 podCast.setPublishDate(sb.toString().trim());
             }else if (qName.equals("itunes:duration")){
-                podCast.setDuration(sb.toString().trim());
+                    podCast.setDuration(sb.toString().trim());
             }
             sb.setLength(0);
         }

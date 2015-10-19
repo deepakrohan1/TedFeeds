@@ -33,97 +33,98 @@
         android:layout_alignParentStart="true">
 
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/linearLayout"
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_alignTop="@+id/scrollView"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textViewDescription"
+            android:layout_marginTop="30dp"
             android:layout_below="@+id/imageViewPodcast"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true" />
 
-            <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textViewPubDate"
+            android:layout_below="@+id/textViewDescription"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textViewDuration"
+            android:layout_below="@+id/textViewPubDate"
+            android:layout_alignParentStart="true" />
+
+        <MediaController
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:id="@+id/mediaController"
+            android:layout_below="@+id/textViewDuration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:weightSum="1">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
-                android:id="@+id/textViewDescription"
-                android:layout_marginTop="30dp"
-                android:layout_below="@+id/imageViewPodcast"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
-                android:id="@+id/textViewPubDate"
-                android:layout_below="@+id/textViewDescription"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="33dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
-                android:id="@+id/textViewDuration"
-                android:layout_below="@+id/textViewPubDate"
-                android:layout_alignParentStart="true" />
-
-            <MediaController
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:id="@+id/mediaController"
-                android:layout_below="@+id/textViewDuration"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:weightSum="1">
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/progressBarEpisodeLength"
-                    android:layout_weight="0.85" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="22dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:id="@+id/imageViewPlayButton"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/play"
-                        android:onClick="playOnClick"/>
-
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:id="@+id/imageViewPauseButton"
-                        android:layout_gravity="center"
-                        android:src="@drawable/pause"
-                        android:onClick="pauseOnClick"/>
-                </FrameLayout>
-            </LinearLayout>
-
+                android:id="@+id/progressBarEpisodeLength"
+                android:layout_weight="0.85" />
         </LinearLayout>
-    </ScrollView>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="top">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/imageViewPlayButton"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/play"
+                    android:onClick="playOnClick"/>
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/imageViewPauseButton"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pause"
+                    android:onClick="pauseOnClick"/>
+            </FrameLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

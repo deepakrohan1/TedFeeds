@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
         //Setting Up the Adapter
 
 
-
         new GetFeedsAsync(this).execute("http://www.npr.org/rss/podcast.php?id=510298");
 //        getListofPodCasts();
     }
@@ -74,106 +73,113 @@ public class MainActivity extends AppCompatActivity implements GetFeedsAsync.IGe
 //        return true;
     }
 
+    /////////////////////
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
+            case R.id.action_settings:
+                return true;
             case R.id.action_search:
-                i++;
-                if(i%2 != 0){
-
-                    mLayoutManager = new GridLayoutManager(this,2);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
+                if (type == "L") {
                     type = "G";
-                    switchViews();
-
-
-                }else {
-
-                    mLayoutManager = new LinearLayoutManager(this);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
+                } else {
                     type = "L";
-                    switchViews();
-
                 }
+                playButton.setVisibility(View.INVISIBLE);
+                pauseButton.setVisibility(View.INVISIBLE);
+                episodeProgress.setVisibility(View.INVISIBLE);
+                switchViews();
                 Log.d("demo", "search clicked");
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    ///////////////////////////
     @Override
     public void getListofPodCasts(ArrayList<PodCasts> podCastsArrayList) {
-        for(PodCasts p : podCastsArrayList){
-            Log.d("demo","Check"+p.toString());
+        for (PodCasts p : podCastsArrayList) {
+            Log.d("demo", "Check" + p.toString());
         }
         podcastL = (ArrayList<PodCasts>) podCastsArrayList.clone();
-        mAdapter = new RecycListViewAdaPod(podcastL,this);
-        mRecyclerView.setAdapter(mAdapter);
+        switchViews();
 
     }
 
-    private void switchViews(){
-        if(type == "G") {
+    ///////////////
+    private void switchViews() {
+        if (type == "G") {
             Log.d("demo", "inside grid");
+            mLayoutManager = new GridLayoutManager(this, 2);
+            mRecyclerView.setLayoutManager(mLayoutManager);
             mAdapter = new RecyclerGridViewAdaPod(podcastL, this);
-        }else if(type == "L"){
+            mRecyclerView.setAdapter(mAdapter);
+            if (isPlaying) {
+                Log.d("demo", "stopping grid");
+                RecycListViewAdaPod.getMediaPlayer().stop();
+                isPlaying = false;
+            }
+        } else if (type == "L") {
             Log.d("demo", "inside list");
-            mAdapter = new RecycListViewAdaPod(podcastL,this);
+            mLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mAdapter = new RecycListViewAdaPod(podcastL, this);
+            mRecyclerView.setAdapter(mAdapter);
+            if (isPlaying) {
+                Log.d("demo", "stopping linear");
+                RecyclerGridViewAdaPod.getMediaPlayer().stop();
+                isPlaying = false;
+            }
         }
-        mRecyclerView.setAdapter(mAdapter);
-
     }
-    public void playing(){
+
+    /////////////////////////
+    public void playing() {
         pauseButton.setVisibility(View.VISIBLE);
         playButton.setVisibility(View.INVISIBLE);
         episodeProgress.setVisibility(View.VISIBLE);
         isPlaying = true;
-
         handlerI = new Handler();
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int lCurrentPosition = 0;
-                if(type == "G"){
-                    if (RecyclerGridViewAdaPod.getMediaPlayer() != null){
+                ///////////////////
+                if (type == "G") {
+                    if (RecyclerGridViewAdaPod.getMediaPlayer() != null) {
                         lCurrentPosition = ((RecyclerGridViewAdaPod.getMediaPlayer().getCurrentPosition()) * 100) / RecyclerGridViewAdaPod.getMediaPlayer().getDuration();
                     }
-                }else{
-                    if (RecycListViewAdaPod.getMediaPlayer() != null){
+                } else {
+                    if (RecycListViewAdaPod.getMediaPlayer() != null) {
                         lCurrentPosition = ((RecycListViewAdaPod.getMediaPlayer().getCurrentPosition()) * 100) / RecycListViewAdaPod.getMediaPlayer().getDuration();
                     }
                 }
-
+                //////////////////////////
                 episodeProgress.setProgress(lCurrentPosition);
                 handlerI.postDelayed(this, 1000);
             }
         });
-
-
-
     }
-    public void playOnClick(View aView){
-        if(type == "G")
+
+    public void playOnClickM(View aView) {
+        if (type == "G")
             RecyclerGridViewAdaPod.getMediaPlayer().start();
         else
             RecycListViewAdaPod.getMediaPlayer().start();
-
         pauseButton.setVisibility(View.VISIBLE);
         playButton.setVisibility(View.INVISIBLE);
     }
 
-    public void pauseOnClick(View aView){
-        if(type == "G")
+    public void pauseOnClickM(View aView) {
+        if (type == "G")
             RecyclerGridViewAdaPod.getMediaPlayer().pause();
         else
             RecycListViewAdaPod.getMediaPlayer().pause();
-
         pauseButton.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.VISIBLE);
     }

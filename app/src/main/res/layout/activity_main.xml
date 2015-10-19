@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/imageViewPauseButton"
                 android:src="@drawable/pause"
-                android:onClick="pauseOnClick"/>
+                android:onClick="pauseOnClickM"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:id="@+id/imageViewPlayButton"
                 android:layout_gravity="center"
                 android:src="@drawable/play"
-                android:onClick="playOnClick"/>
+                android:onClick="playOnClickM"/>
         </FrameLayout>
 
     </LinearLayout>

@@ -55,7 +55,14 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             podCast = (PodCasts) getIntent().getExtras().getSerializable(RecyclerGridViewAdaPod.PODCAST_INFO);
         }
         audioFileLink = podCast.getUrl();
-        episodeDuration = Integer.parseInt(podCast.getDuration()) * 1000;
+        /////////////////////
+        String Dura = podCast.getDuration();
+        if (Dura == null){
+            episodeDuration = 3000 * 1000;
+        }else{
+            episodeDuration = Integer.parseInt(Dura)*1000;
+        }
+        ////////////////////
         episodeProgress.setMax(100);
         textViewTitle.setText(podCast.getTitle());
         textViewDescription.setText("Description: "+podCast.getDescription());
